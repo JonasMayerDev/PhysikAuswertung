@@ -60,9 +60,16 @@ for datafileN in range(3):
 
     fig, ax = plt.subplots(figsize=(12, 5), tight_layout=True)
     ax.plot(xAxisNp, yAxisNp)
+    if(datafileN == 0):
+        ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 250g)')
+    if(datafileN == 1):
+        ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 500g)')
+    if(datafileN == 2):
+        ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dünne Feder mit 500g)')
 
-    ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm?)',
-        title='Test')
     ax.axhline(y=0, color='r', linestyle='-')
 
 
@@ -103,8 +110,15 @@ for datafileN in range(3):
 
     fig2, ax2 = plt.subplots(figsize=(12, 5), tight_layout=True)
     ax2.plot(tDiffs, relativeDiffs)
-    ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
-        title='Test')
+    if(datafileN == 0):
+        ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
+            title='Relative Auslenkung pro Zeit (Dicke Feder mit 250g)')
+    if(datafileN == 1):
+        ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
+            title='Relative Auslenkung pro Zeit (Dicke Feder mit 500g)')
+    if(datafileN == 2):
+        ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
+            title='Relative Auslenkung pro Zeit (Dünne Feder mit 500g)')
     fig2.savefig(datafiles[datafileN].replace("Data",".")+"2.png")
     tDiffsList.append(tDiffs)
     relativeDiffsList.append(relativeDiffs)
@@ -113,12 +127,12 @@ fig3, ax3 = plt.subplots(figsize=(12, 5), tight_layout=True)
 lenList = [len(tDiff) for tDiff in tDiffsList]
 maxXLenIndex = lenList.index(max(lenList))
 
-ax3.plot(tDiffsList[0], relativeDiffsList[0],"-y",label=datafiles[0])
-ax3.plot(tDiffsList[1], relativeDiffsList[1],"-b",label=datafiles[1])
-ax3.plot(tDiffsList[2], relativeDiffsList[2],"-r",label=datafiles[2])
+ax3.plot(tDiffsList[0], relativeDiffsList[0],"-y",label="Dicke Feder mit 250g")
+ax3.plot(tDiffsList[1], relativeDiffsList[1],"-b",label="Dicke Feder mit 500g")
+ax3.plot(tDiffsList[2], relativeDiffsList[2],"-r",label="Dünne Feder mit 500g")
 
 ax3.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
-        title='Test')
+        title='Relative Auslenkung pro Zeit (kombiniert)')
 ax3.legend()
 
 fig3.savefig(datafiles[datafileN].replace("Data",".")+"3.png")
