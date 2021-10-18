@@ -35,7 +35,7 @@ for i, dataRaw in enumerate([datasRaw[datafile] for datafile in datafiles]):
 tDiffsList = []
 relativeDiffsList = []
 
-for datafileN in range(3):
+for datafileN in range(5):
         
     xAxis = []
     yAxis = [] 
@@ -52,7 +52,7 @@ for datafileN in range(3):
     avg = np.average(yAxisNp)
     yAxisNp = [yVal-avg for yVal in yAxisNp]
     yAxisNp = np.asarray(yAxisNp)
-    if(datafileN == 1):
+    if(datafileN == 0):
         offset = 14
         xAxisNp = [xVal-offset for xVal in xAxisNp]
         xAxisNp = np.asarray(xAxisNp)
@@ -123,13 +123,16 @@ for datafileN in range(3):
     tDiffsList.append(tDiffs)
     relativeDiffsList.append(relativeDiffs)
 
+
 fig3, ax3 = plt.subplots(figsize=(12, 5), tight_layout=True)
 lenList = [len(tDiff) for tDiff in tDiffsList]
 maxXLenIndex = lenList.index(max(lenList))
 
-ax3.plot(tDiffsList[0], relativeDiffsList[0],"-y",label="Dicke Feder mit 250g")
-ax3.plot(tDiffsList[1], relativeDiffsList[1],"-b",label="Dicke Feder mit 500g")
-ax3.plot(tDiffsList[2], relativeDiffsList[2],"-r",label="Dünne Feder mit 500g")
+ax3.plot(tDiffsList[0], relativeDiffsList[0],"-y",label=datafiles[0])
+ax3.plot(tDiffsList[1], relativeDiffsList[1],"-b",label=datafiles[1])
+ax3.plot(tDiffsList[2], relativeDiffsList[2],"-r",label=datafiles[2])
+ax3.plot(tDiffsList[3], relativeDiffsList[3],"-g",label=datafiles[3])
+ax3.plot(tDiffsList[4], relativeDiffsList[3],"-m",label=datafiles[4])
 
 ax3.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
         title='Relative Auslenkung pro Zeit (kombiniert)')
@@ -137,3 +140,4 @@ ax3.legend()
 
 fig3.savefig(datafiles[datafileN].replace("Data",".")+"3.png")
 
+print(datafiles)
