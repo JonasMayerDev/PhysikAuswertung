@@ -35,7 +35,7 @@ for i, dataRaw in enumerate([datasRaw[datafile] for datafile in datafiles]):
 tDiffsList = []
 relativeDiffsList = []
 
-for datafileN in range(5):
+for datafileN in range(len(datafiles)):
         
     xAxis = []
     yAxis = [] 
@@ -52,8 +52,12 @@ for datafileN in range(5):
     avg = np.average(yAxisNp)
     yAxisNp = [yVal-avg for yVal in yAxisNp]
     yAxisNp = np.asarray(yAxisNp)
-    if(datafileN == 0):
+    if(datafileN == 2):
         offset = 14
+        xAxisNp = [xVal-offset for xVal in xAxisNp]
+        xAxisNp = np.asarray(xAxisNp)
+    if(datafileN == 0):
+        offset = -4
         xAxisNp = [xVal-offset for xVal in xAxisNp]
         xAxisNp = np.asarray(xAxisNp)
 
@@ -65,10 +69,14 @@ for datafileN in range(5):
             title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 250g)')
     if(datafileN == 1):
         ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
-            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 500g)')
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dünne Feder mit 500g)')
     if(datafileN == 2):
         ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
-            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dünne Feder mit 500g)')
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 500g (1))')
+    if(datafileN == 2):
+        ax.set(xlabel='Zeit (in s)', ylabel='Auslenkung (in cm)',
+            title='Auslenkung pro Zeit mit markierten Extrempunkten (Dicke Feder mit 500g (2))')
+
 
     ax.axhline(y=0, color='r', linestyle='-')
 
@@ -81,7 +89,7 @@ for datafileN in range(5):
     mins = argrelextrema(yAxisNp, np.less)
     ax.plot([xAxisNp[min] for min in mins],[yAxisNp[min] for min in mins],"bo")
 
-    fig.savefig(datafiles[datafileN].replace("Data",".")+".png")
+    fig.savefig(datafiles[datafileN].replace("Data",".").replace(".csv","")+".png")
     plt.show()
 
     maxs = np.array(maxs)
@@ -115,11 +123,14 @@ for datafileN in range(5):
             title='Relative Auslenkung pro Zeit (Dicke Feder mit 250g)')
     if(datafileN == 1):
         ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
-            title='Relative Auslenkung pro Zeit (Dicke Feder mit 500g)')
+            title='Relative Auslenkung pro Zeit (Dünne Feder mit 500g)')
     if(datafileN == 2):
         ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
-            title='Relative Auslenkung pro Zeit (Dünne Feder mit 500g)')
-    fig2.savefig(datafiles[datafileN].replace("Data",".")+"2.png")
+            title='Relative Auslenkung pro Zeit (Dicke Feder mit 500g (1))')
+    if(datafileN == 3):
+        ax2.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
+            title='Relative Auslenkung pro Zeit (Dicke Feder mit 500g (2))')
+    fig2.savefig(datafiles[datafileN].replace("Data",".").replace(".csv","")+"2.png")
     tDiffsList.append(tDiffs)
     relativeDiffsList.append(relativeDiffs)
 
@@ -128,16 +139,15 @@ fig3, ax3 = plt.subplots(figsize=(12, 5), tight_layout=True)
 lenList = [len(tDiff) for tDiff in tDiffsList]
 maxXLenIndex = lenList.index(max(lenList))
 
-ax3.plot(tDiffsList[0], relativeDiffsList[0],"-y",label=datafiles[0])
-ax3.plot(tDiffsList[1], relativeDiffsList[1],"-b",label=datafiles[1])
-ax3.plot(tDiffsList[2], relativeDiffsList[2],"-r",label=datafiles[2])
-ax3.plot(tDiffsList[3], relativeDiffsList[3],"-g",label=datafiles[3])
-ax3.plot(tDiffsList[4], relativeDiffsList[3],"-m",label=datafiles[4])
+ax3.plot(tDiffsList[0], relativeDiffsList[0],"-r",label="Dicke Feder mit 250g")
+ax3.plot(tDiffsList[1], relativeDiffsList[1],"-g",label="Dünne Feder mit 500g")
+ax3.plot(tDiffsList[2], relativeDiffsList[2],"-b",label="Dicke Feder mit 500g (1)")
+ax3.plot(tDiffsList[3], relativeDiffsList[3],"-m",label="Dicke Feder mit 500g (2)")
 
 ax3.set(xlabel='Zeit (in s)', ylabel='Auslenkung (relativ zur Maximalauslenkung)',
         title='Relative Auslenkung pro Zeit (kombiniert)')
 ax3.legend()
 
-fig3.savefig(datafiles[datafileN].replace("Data",".")+"3.png")
+fig3.savefig("Zusammen.png")
 
 print(datafiles)
